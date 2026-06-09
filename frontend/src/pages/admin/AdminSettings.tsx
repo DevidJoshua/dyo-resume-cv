@@ -21,6 +21,12 @@ const AdminSettings = () => {
     layoutMode: 'single',
     showSkillProficiency: true,
     enablePages: true,
+    resumeLayout: 'classic',
+    showEducation: true,
+    showVolunteer: true,
+    showPublication: true,
+    showCourse: true,
+    showCertification: true,
     email: '', phone: '', whatsapp: '', linkedinUrl: '', githubUrl: ''
   });
 
@@ -45,6 +51,12 @@ const AdminSettings = () => {
           layoutMode: sd.layoutMode || 'single',
           showSkillProficiency: sd.showSkillProficiency !== false,
           enablePages: sd.enablePages !== false,
+          resumeLayout: sd.resumeLayout || 'classic',
+          showEducation: sd.showEducation !== false,
+          showVolunteer: sd.showVolunteer !== false,
+          showPublication: sd.showPublication !== false,
+          showCourse: sd.showCourse !== false,
+          showCertification: sd.showCertification !== false,
           email: sd.email || '', phone: sd.phone || '', whatsapp: sd.whatsapp || '',
           linkedinUrl: sd.linkedinUrl || '', githubUrl: sd.githubUrl || ''
         });

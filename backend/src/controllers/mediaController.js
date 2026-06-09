@@ -1,7 +1,6 @@
-const { PrismaClient } = require('@prisma/client');
 const path = require('path');
 const fs = require('fs');
-const prisma = new PrismaClient();
+const prisma = require('../utils/prisma');
 
 exports.getMediaFiles = async (req, res) => {
   try {
