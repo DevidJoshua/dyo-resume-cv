@@ -42,8 +42,7 @@ services:
     hostname: backend
     restart: unless-stopped
     depends_on:
-      mysql:
-        condition: service_healthy
+      - mysql
     environment:
       DATABASE_URL: mysql://${MYSQL_USER:-dyo}:${MYSQL_PASSWORD:-dyo_pass}@mysql:3306/${MYSQL_DATABASE:-dyo}
       JWT_SECRET: ${JWT_SECRET:-devid-porto-jwt-secret-key-2024}
@@ -92,8 +91,7 @@ services:
     hostname: frontend
     restart: unless-stopped
     depends_on:
-      backend:
-        condition: service_healthy
+      - backend
     ports:
       - target: 80
         published: 80
