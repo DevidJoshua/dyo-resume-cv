@@ -49,7 +49,7 @@ fi
 info "Pulling images from Docker Hub..."
 docker pull "devid11/devid-porto-backend:latest"
 docker pull "devid11/devid-porto-frontend:latest"
-docker pull "mysql:8.0"
+docker pull "mysql:8.4"
 
 # ---------- Create secrets (if not exist) ----------
 _create_secret() {
