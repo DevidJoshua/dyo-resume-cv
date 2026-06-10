@@ -54,6 +54,7 @@ describe('Site Controller', () => {
       prisma.contactMessage.count.mockResolvedValue(10);
       prisma.skill.count.mockResolvedValue(8);
       prisma.contactMessage.findMany.mockResolvedValue([{ id: 1, name: 'John' }]);
+      prisma.homepageTemplate.findMany.mockResolvedValue([{ id: 1, name: 'Professional', isActive: true }]);
 
       const res = mockRes();
       await controller.getDashboard(mockReq(), res);
@@ -63,6 +64,7 @@ describe('Site Controller', () => {
         messageCount: 10,
         skillCount: 8,
         recentMessages: expect.any(Array),
+        activeTemplate: 'Professional',
       }));
     });
   });

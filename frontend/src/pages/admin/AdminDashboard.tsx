@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { DashboardData } from '../../types';
-import { FiBookOpen, FiMessageSquare, FiCode, FiClock } from 'react-icons/fi';
+import { FiBookOpen, FiMessageSquare, FiCode, FiClock, FiLayout } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 const AdminDashboard = () => {
@@ -20,23 +21,35 @@ const AdminDashboard = () => {
     { icon: <FiBookOpen />, label: 'Portfolio Items', value: data?.portfolioCount || 0, color: '#FF8473' },
     { icon: <FiMessageSquare />, label: 'Contact Messages', value: data?.messageCount || 0, color: '#7152E1' },
     { icon: <FiCode />, label: 'Skills', value: data?.skillCount || 0, color: '#4CAF50' },
+    { icon: <FiLayout />, label: 'Active Template', value: data?.activeTemplate || 'Professional', color: '#FFC107', link: '/admin/templates' },
   ];
 
   return (
     <div className="admin-dashboard">
       <h1 className="admin-page-title">Dashboard</h1>
       <div className="dashboard-stats">
-        {stats.map((stat) => (
-          <div key={stat.label} className="dashboard-stat-card">
-            <div className="dashboard-stat-icon" style={{ background: `${stat.color}20`, color: stat.color }}>
-              {stat.icon}
+        {stats.map((stat) => {
+          const content = (
+            <>
+              <div className="dashboard-stat-icon" style={{ background: `${stat.color}20`, color: stat.color }}>
+                {stat.icon}
+              </div>
+              <div className="dashboard-stat-info">
+                <span className="dashboard-stat-value">{stat.value}</span>
+                <span className="dashboard-stat-label">{stat.label}</span>
+              </div>
+            </>
+          );
+          return stat.link ? (
+            <Link key={stat.label} to={stat.link} className="dashboard-stat-card" style={{ textDecoration: 'none' }}>
+              {content}
+            </Link>
+          ) : (
+            <div key={stat.label} className="dashboard-stat-card">
+              {content}
             </div>
-            <div className="dashboard-stat-info">
-              <span className="dashboard-stat-value">{stat.value}</span>
-              <span className="dashboard-stat-label">{stat.label}</span>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       <div className="dashboard-recent">
         <h2><FiClock /> Recent Messages</h2>

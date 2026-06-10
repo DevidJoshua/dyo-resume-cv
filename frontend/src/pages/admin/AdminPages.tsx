@@ -77,7 +77,7 @@ const AdminPages = () => {
             {pages.map((page) => (
               <tr key={page.id}>
                 <td><strong>{page.title}</strong></td>
-                <td><code>/{page.slug}</code></td>
+                <td><code className="admin-code">/{page.slug}</code></td>
                 <td><span className="badge badge-primary">{page.template?.name || '-'}</span></td>
                 <td><span className={`badge ${page.isPublished ? 'badge-success' : 'badge-danger'}`}>{page.isPublished ? 'Published' : 'Draft'}</span></td>
                 <td className="admin-actions">

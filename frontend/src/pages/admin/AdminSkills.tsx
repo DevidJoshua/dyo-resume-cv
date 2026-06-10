@@ -140,35 +140,7 @@ const AdminSkills = () => {
       )}
 
       <style>{`
-        .admin-crud-page { max-width: 1200px; }
-        .admin-crud-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
-        .admin-table-wrapper { background: #fff; border-radius: 12px; overflow-x: auto; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .admin-table { width: 100%; border-collapse: collapse; }
-        .admin-table th { text-align: left; padding: 16px 20px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #8A8A8A; border-bottom: 2px solid #f0f0f0; font-family: 'Inter', sans-serif; }
-        .admin-table td { padding: 14px 20px; border-bottom: 1px solid #f5f5f5; font-size: 14px; }
-        .admin-table tr:hover td { background: #f9f9f9; }
-        .badge { padding: 3px 10px; border-radius: 50px; font-size: 12px; font-weight: 600; }
-        .badge-primary { background: #FF847320; color: #FF8473; }
-        .badge-success { background: #4CAF5020; color: #4CAF50; }
-        .badge-danger { background: #f4433620; color: #f44336; }
-        .admin-progress { height: 6px; background: #f0f0f0; border-radius: 3px; width: 100px; display: inline-block; vertical-align: middle; margin-right: 8px; }
-        .admin-progress-fill { height: 100%; background: linear-gradient(90deg, #FF8473, #7152E1); border-radius: 3px; }
-        .admin-actions { display: flex; gap: 8px; }
-        .btn-icon { background: none; border: none; cursor: pointer; padding: 6px; border-radius: 6px; display: flex; align-items: center; font-size: 16px; color: #8A8A8A; transition: all 0.2s; }
-        .btn-icon.edit:hover { background: #7152E120; color: #7152E1; }
-        .btn-icon.delete:hover { background: #f4433620; color: #f44336; }
-        .admin-modal-overlay {
-          position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-          display: flex; align-items: center; justify-content: center;
-          z-index: 1000; padding: 20px;
-        }
-        .admin-modal {
-          background: #fff; border-radius: 16px; padding: 30px;
-          width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
-        }
-        .admin-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .admin-modal-header h2 { font-size: 1.3rem; font-family: 'Inter', sans-serif; }
-        .admin-modal .form-group { margin-bottom: 16px; }
+        /* Skills-specific styles only (shared styles in AdminLayout) */
       `}</style>
     </div>
   );

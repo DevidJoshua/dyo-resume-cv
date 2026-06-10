@@ -115,6 +115,7 @@ export interface DashboardData {
   messageCount: number;
   skillCount: number;
   recentMessages: ContactMessage[];
+  activeTemplate?: string;
 }
 
 export interface HomepageTemplate {
