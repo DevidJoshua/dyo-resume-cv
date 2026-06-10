@@ -1,5 +1,7 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
+RUN apk add --no-cache openssl
+ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
 COPY package*.json ./
 RUN npm ci
 COPY prisma ./prisma
@@ -9,7 +11,8 @@ COPY docker-entrypoint.sh ./
 
 FROM node:20-alpine
 WORKDIR /app
-RUN apk add --no-cache tini wget
+RUN apk add --no-cache tini wget openssl
+ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/prisma ./prisma
