@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import api from '../services/api';
 import { HomeSetting, Skill, Portfolio, SiteSetting, HomepageTemplate, Education, Volunteer, Publication, Course, Certification } from '../types';
 import Navbar from '../components/layout/Navbar';
@@ -21,6 +22,8 @@ const templateMap: Record<string, React.FC<any>> = {
 };
 
 const HomePage = ({ layoutMode = 'single' }: { layoutMode?: string }) => {
+  const [searchParams] = useSearchParams();
+  const previewTemplateCode = searchParams.get('template');
   const [home, setHome] = useState<HomeSetting | null>(null);
   const [skills, setSkills] = useState<Skill[]>([]);
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
@@ -36,6 +39,16 @@ const HomePage = ({ layoutMode = 'single' }: { layoutMode?: string }) => {
   const [contactSent, setContactSent] = useState(false);
 
   useEffect(() => {
+    // Admin iframe previews only need the active-template reference to validate
+    // the override code. Skipping the heavy data payload keeps five simultaneous
+    // iframe loads cheap, both on the API and the client.
+    if (previewTemplateCode && templateMap[previewTemplateCode]) {
+      api.get('/templates/active').then((t) => {
+        setActiveTemplate(t.data);
+      }).finally(() => setLoading(false));
+      return;
+    }
+
     Promise.all([
       api.get('/home'),
       api.get('/skills'),
@@ -72,14 +85,34 @@ const HomePage = ({ layoutMode = 'single' }: { layoutMode?: string }) => {
 
   if (loading) return <><Navbar /><LoadingSpinner /><Footer /></>;
 
-  const TemplateComponent = activeTemplate?.code ? templateMap[activeTemplate.code] : null;
+  // Template selection: an admin iframe preview may pass ?template=<code> to force
+  // rendering of a non-active template. The override is ignored if the code is
+  // not a known key — we fall back to whichever template is active.
+  const overrideCode = previewTemplateCode && templateMap[previewTemplateCode]
+    ? previewTemplateCode
+    : null;
+  const isPreviewMode = !!overrideCode;
+  const TemplateComponent = overrideCode
+    ? templateMap[overrideCode]
+    : (activeTemplate?.code ? templateMap[activeTemplate.code] : null);
 
   return (
     <>
       <Navbar layoutMode={layoutMode as 'single' | 'multiple'} />
       <main>
         {TemplateComponent ? (
-          <TemplateComponent home={home} skills={skills} portfolios={portfolios} settings={settings} />
+          isPreviewMode ? (
+            // Admin iframe preview — minimal render, no extra sections, defensive
+            // default values so templates don't crash on null props.
+            <TemplateComponent
+              home={home ?? ({ heroTitle: '', heroSubtitle: '', aboutText: '' } as HomeSetting)}
+              skills={skills}
+              portfolios={portfolios}
+              settings={settings ?? {} as SiteSetting}
+            />
+          ) : (
+            <TemplateComponent home={home} skills={skills} portfolios={portfolios} settings={settings} />
+          )
         ) : (
           <div className="container" style={{ paddingTop: 120, textAlign: 'center', minHeight: '60vh' }}>
             <h2>Welcome</h2>
@@ -87,6 +120,9 @@ const HomePage = ({ layoutMode = 'single' }: { layoutMode?: string }) => {
           </div>
         )}
 
+        {/* Skip all secondary sections when in admin preview mode — the iframe only needs the hero. */}
+        {!isPreviewMode && (
+        <>
         {layoutMode === 'single' && (
         <AnimatedSection id="cv" className="section" style={{ background: 'var(--bg-secondary)' }}>
           <div className="container" style={{ textAlign: 'center' }}>
@@ -256,6 +292,8 @@ const HomePage = ({ layoutMode = 'single' }: { layoutMode?: string }) => {
             </div>
           </div>
         </section>
+        )}
+        </>
         )}
       </main>
       <Footer />
