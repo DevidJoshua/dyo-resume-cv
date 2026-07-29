@@ -29,6 +29,7 @@ import AdminCourse from './pages/admin/AdminCourse';
 import AdminCertification from './pages/admin/AdminCertification';
 import CvPreviewPage from './pages/CvPreviewPage';
 import AdminLayout from './components/admin/AdminLayout';
+import AdminMuiThemeProvider from './contexts/AdminMuiThemeProvider';
 import './App.css';
 
 function AppContent() {
@@ -56,7 +57,7 @@ function AppContent() {
         <Route path="/contact" element={<ContactPage />} />
         {enablePages && <Route path="/:slug" element={<DynamicPageView />} />}
         <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route path="/admin" element={<AdminMuiThemeProvider><AdminLayout /></AdminMuiThemeProvider>}>
           <Route index element={<AdminDashboard />} />
           <Route path="skills" element={<AdminSkills />} />
           <Route path="portfolio" element={<AdminPortfolioV2 />} />
@@ -83,7 +84,7 @@ function AppContent() {
       <Route path="/portfolio/:id" element={<PortfolioDetail />} />
       <Route path="/cv" element={<CvPreviewPage />} />
       <Route path="/admin/login" element={<AdminLogin />} />
-      <Route path="/admin" element={<AdminLayout />}>
+      <Route path="/admin" element={<AdminMuiThemeProvider><AdminLayout /></AdminMuiThemeProvider>}>
         <Route index element={<AdminDashboard />} />
         <Route path="skills" element={<AdminSkills />} />
         <Route path="portfolio" element={<AdminPortfolioV2 />} />

@@ -28,7 +28,7 @@ model HomeSetting {
   backgroundImage String?  @map("background_image")
   ctaText         String?  @map("cta_text")
   ctaUrl          String?  @map("cta_url")
-  aboutText       String?  @map("about_text")
+  aboutText       String?  @db.Text @map("about_text")
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @updatedAt @map("updated_at")
 
@@ -82,8 +82,8 @@ model PortfolioTechnology {
 model Portfolio {
   id              Int      @id @default(autoincrement())
   title           String
-  shortDescription String? @map("short_description")
-  fullDescription  String? @map("full_description")
+  shortDescription String? @db.Text @map("short_description")
+  fullDescription  String? @db.Text @map("full_description")
   categoryId      Int?     @map("category_id")
   featuredImageId Int?     @map("featured_image_id")
   projectUrl      String?  @map("project_url")
@@ -249,7 +249,7 @@ model HomepageTemplate {
 model HomepageConfiguration {
   id                 Int      @id @default(autoincrement())
   homepageTemplateId Int      @map("homepage_template_id")
-  configurationJson  String   @map("configuration_json")
+  configurationJson  String   @db.Text @map("configuration_json")
   createdAt          DateTime @default(now()) @map("created_at")
   updatedAt          DateTime @updatedAt @map("updated_at")
   template           HomepageTemplate @relation(fields: [homepageTemplateId], references: [id], onDelete: Cascade)
@@ -289,7 +289,7 @@ model Page {
 model PageContent {
   id          Int      @id @default(autoincrement())
   pageId      Int      @map("page_id")
-  contentJson String   @map("content_json")
+  contentJson String   @db.Text @map("content_json")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
   page        Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
